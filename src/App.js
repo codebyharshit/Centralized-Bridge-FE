@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import "./App.css";
 import "./index.css";
 import Web3Modal from "web3modal";
-import { tokenEth, tokenMatic, bridgeEth, bridgeMatic, admin } from "./config";
+import {
+  tokenEth,
+  tokenMatic,
+  bridgeEth,
+  bridgeMatic,
+  admin,
+  Token,
+  Bridge,
+} from "./config";
 import Web3 from "web3";
-import Token from "./abi/token";
-import Bridge from "./abi/bridge";
+// import Token from "./abi/token";
+// import Bridge from "./abi/bridge";
 import Swal from "sweetalert2";
-import {parseEther} from "ethers";
+import { parseEther } from "ethers";
 
 function App() {
   const [address, setAddress] = useState("");
@@ -33,7 +41,6 @@ function App() {
   };
 
   const getAllowance = async (from, TokenAddress, bridge) => {
-    
     // try {
     //   const provider = new ethers.BrowserProvider(window.ethereum);
     //   await provider.send("eth_requestAccounts", [0]);
