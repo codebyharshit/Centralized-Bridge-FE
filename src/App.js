@@ -3,11 +3,9 @@ import "./App.css";
 import "./index.css";
 import Web3Modal from "web3modal";
 import { tokenEth, tokenMatic, bridgeEth, bridgeMatic, admin } from "./config";
-import { ethers } from "ethers";
-import { parseEther } from "ethers";
 import Web3 from "web3";
-import Token from "./ABI/Token";
-import Bridge from "./ABI/Bridge";
+import Token from "./abi/token";
+import Bridge from "./abi/bridge";
 import Swal from "sweetalert2";
 
 function App() {
@@ -34,14 +32,27 @@ function App() {
   };
 
   const getAllowance = async (from, TokenAddress, bridge) => {
+    
+    // try {
+    //   const provider = new ethers.BrowserProvider(window.ethereum);
+    //   await provider.send("eth_requestAccounts", [0]);
+    //   const signer = provider.getSigner();
+    //   const contract = new ethers.Contract(TokenAddress, Token, provider);
+    //   const result = await contract.allowance(from, bridge);
+    //   const allowance = result.toString();
+    //   console.log(allowance);
+    //   return allowance;
+    // }
+
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", [0]);
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(TokenAddress, Token, provider);
-      const result = await contract.allowance(from, bridge);
+      const web3 = new Web3(window.ethereum);
+      await window.ethereum.enable();
+      const accounts = await web3.eth.getAccounts();
+      const currentAccount = accounts[0];
+      web3.eth.defaultAccount = currentAccount;
+      const contract = new web3.eth.Contract(Token, TokenAddress);
+      const result = await contract.methods.allowance(from, bridge).call();
       const allowance = result.toString();
-      console.log(allowance);
       return allowance;
     } catch (error) {
       console.error("Error fetching data:", error);
