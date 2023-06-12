@@ -7,6 +7,7 @@ import Web3 from "web3";
 import Token from "./abi/token";
 import Bridge from "./abi/bridge";
 import Swal from "sweetalert2";
+import {parseEther} from "ethers";
 
 function App() {
   const [address, setAddress] = useState("");
